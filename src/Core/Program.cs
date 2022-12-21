@@ -550,7 +550,14 @@ namespace Reko.Core
         {
             ImageMapItem item = AddGlobalItem(arch, address, dataType);
 
-            this.User.Globals.Add(address, new UserGlobal(address, UserGlobal.GenerateDefaultName(address), dataType.Accept(new Serialization.DataTypeSerializer())));
+            var global = new UserGlobal(address, UserGlobal.GenerateDefaultName(address), dataType.Accept(new Serialization.DataTypeSerializer()));
+
+            if (this.User.Globals.TryGetValue(address, out var existing)) {
+                Console.WriteLine("Global at {0} already exists with type {1}", address.ToString(), existing.DataType.ToString());
+                this.User.Globals[address] = global;
+            } else {
+                this.User.Globals.Add(address, global);
+            }
 
             return item;
         }
