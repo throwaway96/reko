@@ -61,7 +61,15 @@ namespace Reko.Core.Hll.C
         {
             this.parserState = state;
             this.lexer = lexer;
-            this.macros = new();
+            this.macros = new()
+            {
+                {
+                    "__REKO_VERSION__",
+                    new () {
+                        new CToken(CTokenType.NumericLiteral, AssemblyMetadata.AssemblyFileNumericVersion)
+                    }
+                }
+            };
             this.state = State.StartLine;
             this.ifdefs = new Stack<(bool, bool)>();
             this.expandedTokens = new();

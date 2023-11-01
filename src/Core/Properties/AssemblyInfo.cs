@@ -18,6 +18,7 @@
  */
 #endregion
 
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -47,5 +48,16 @@ namespace Reko
         public const string Product = "Reko decompiler";
         public const string Copyright = "Copyright © 1999-2024 John Källén";
         public const string Company = "John Källén Konsult AB";
+
+        public static readonly uint AssemblyFileNumericVersion = VersionStringToInt(AssemblyFileVersion);
+        
+        private static uint VersionStringToInt(string str)
+        {
+            var v = Version.Parse(str);
+            return (((uint) v.Major & 0xff) << 24) |
+                   (((uint) v.Minor & 0xff) << 16) |
+                   (((uint) v.Build & 0xff) << 8) |
+                   ((uint) v.Revision & 0xff);
+        }
     }
 }
