@@ -51,7 +51,7 @@ namespace Reko
 
         public static readonly uint AssemblyFileNumericVersion = VersionStringToInt(AssemblyFileVersion);
         
-        private static uint VersionStringToInt(string str)
+        public static uint VersionStringToInt(string str)
         {
             var v = Version.Parse(str);
             return (((uint) v.Major & 0xff) << 24) |
